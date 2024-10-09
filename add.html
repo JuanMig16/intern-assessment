@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Addition</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+	<h1> Enter The Number </h1>
+	<form id="numbers">
+		<label for="num1">First Number:</label>
+        <input type="number" id="num1" required max="99999">
+
+        <label for="num2">Second Number:</label>
+        <input type="number" id="num2" required max="99999">
+      
+        <input type="submit" value="Submit">
+    </form>
+
+     <script>
+         $(document).ready(function() {
+            $('#numbers').submit(function(event) {
+                event.preventDefault();
+
+            var isValid = true;
+
+            var num1 = $('#num1').val();
+            var num2 = $('#num2').val();
+
+            if (isValid) {
+                    $.ajax({
+                        url: 'http://localhost:3000/api/add',
+                        type: 'POST',
+                        data: JSON.stringify({
+                           "num1": parseFloat(num1),
+                           "num2": parseFloat(num2)
+                       }),
+                        contentType: 'application/json',
+                        success: function(response) {
+                            alert('Addition result: ' + response.message);
+                        },
+                        error: function() {
+                            alert('There was a problem encountered');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
