@@ -1,7 +1,9 @@
 const express = require("express");
 const app = express();
 const port = 3000;
+const cors = require("cors");
 
+app.use(cors());
 app.use(express.json());
 
 app.get("/api/helloworld", (req, res) => {
@@ -10,6 +12,7 @@ app.get("/api/helloworld", (req, res) => {
 
 app.post("/api/name", (req, res) => {
   const { firstName, lastName } = req.body;
+  console.log(firstName)
   res.json({ message: `Hello ${firstName} ${lastName}` });
 });
 

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Name Form</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+	<h1> Enter Your Name </h1>
+	<form id="fullName">
+		<label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" required><br><br>
+
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" required><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+    	 $(document).ready(function() {
+    	 	$('#fullName').submit(function(event) {
+    	 		event.preventDefault();
+
+    	 		var firstName = $('#firstName').val();
+    	 		var lastName = $('#lastName').val();
+                console.log(firstName)
+    	 		$.ajax({
+    	 			url: 'http://localhost:3000/api/name',
+    	 			type: 'POST',
+    	 			data: JSON.stringify({
+                       "firstName": firstName,
+                       "lastName": lastName
+                   }),
+                    contentType: 'application/json',
+    	 			success: function(response) {
+                        console.log(response)
+                        alert('Name submitted successfully!'); // Show success message
+                    },
+                    error: function() {
+                        alert('There was a problem encountered'); // Show error message
+                    }
+    	 		});
+            });
+        });
+    </script>
+
+</body>
+</html>
