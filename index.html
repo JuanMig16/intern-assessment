@@ -9,10 +9,12 @@
 	<h1> Enter Your Name </h1>
 	<form id="fullName">
 		<label for="firstName">First Name:</label>
-        <input type="text" id="firstName" name="firstName" required><br><br>
+        <input type="text" id="firstName" name="firstName" required>
+        <span id="firstNameError" style="color:red; display: none;"> First name is required!</span>
 
         <label for="lastName">Last Name:</label>
-        <input type="text" id="lastName" name="lastName" required><br><br>
+        <input type="text" id="lastName" name="lastName" required>
+        <span id="lastNameError" style="color:red; display: none;"> Last name is required!</span>
 
         <input type="submit" value="Submit">
     </form>
@@ -22,25 +24,42 @@
     	 	$('#fullName').submit(function(event) {
     	 		event.preventDefault();
 
-    	 		var firstName = $('#firstName').val();
-    	 		var lastName = $('#lastName').val();
-                console.log(firstName)
-    	 		$.ajax({
-    	 			url: 'http://localhost:3000/api/name',
-    	 			type: 'POST',
-    	 			data: JSON.stringify({
-                       "firstName": firstName,
-                       "lastName": lastName
-                   }),
-                    contentType: 'application/json',
-    	 			success: function(response) {
-                        console.log(response)
-                        alert('Name submitted successfully!'); // Show success message
-                    },
-                    error: function() {
-                        alert('There was a problem encountered'); // Show error message
-                    }
-    	 		});
+                $('#firstNameError').hide();
+                $('#lastNameError').hide();
+
+    	 		var firstName = $('#firstName').val().trim();
+    	 		var lastName = $('#lastName').val().trim();
+
+                var isValid = true;
+                
+                if (firstName === ''){
+                    $('#firstNameError').show();
+                    isValid = false;
+                }
+
+                if (lastName == ''){
+                    $('#lastNameError').show();
+                    isValid = false;
+                }
+
+    	 		if (isValid) {
+                    $.ajax({
+        	 			url: 'http://localhost:3000/api/name',
+        	 			type: 'POST',
+        	 			data: JSON.stringify({
+                           "firstName": firstName,
+                           "lastName": lastName
+                       }),
+                        contentType: 'application/json',
+        	 			success: function(response) {
+                            console.log(response)
+                            alert('Name submitted successfully!'); // Show success message
+                        },
+                        error: function() {
+                            alert('There was a problem encountered'); // Show error message
+                        }
+        	 		});
+                }
             });
         });
     </script>
