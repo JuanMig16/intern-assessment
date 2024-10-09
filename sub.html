@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subtraction</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+	<h1> Enter The Number </h1>
+	<form id="subNumbers">
+		<label for="number1">First Number:</label>
+        <input type="number" id="number1" required max="99999">
+
+        <label for="number2">Second Number:</label>
+        <input type="number" id="number2" required max="99999">
+      
+        <input type="submit" value="Submit">
+    </form>
+
+     <script>
+         $(document).ready(function() {
+            $('#subNumbers').submit(function(event) {
+                event.preventDefault();
+
+            // var isValid = true;
+
+            var number1 = $('#number1').val();
+            var number2 = $('#number2').val();
+
+            // if (isValid) {
+                    $.ajax({
+                        url: 'http://localhost:3000/api/sub',
+                        type: 'POST',
+                        data: JSON.stringify({
+                           "number1": parseFloat(number1),
+                           "number2": parseFloat(number2)
+                       }),
+                        contentType: 'application/json',
+                        success: function(response) {
+                            alert('Subtraction result: ' + response.message);
+                        },
+                        error: function() {
+                            alert('There was a problem encountered');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
